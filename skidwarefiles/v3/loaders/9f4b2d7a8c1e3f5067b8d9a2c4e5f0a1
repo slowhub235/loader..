@@ -14,6 +14,27 @@ local LocalPlayer = Players.LocalPlayer
 local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local Humanoid = Character:FindFirstChildOfClass("Humanoid")
 
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local function reportToDiscord(username)
+    local data = HttpService:JSONEncode({ username = username })
+
+    local success, response = pcall(function()
+        return HttpService:PostAsync("https://replit.com/@arzhangpazouki/skidwarebot", data, Enum.HttpContentType.ApplicationJson)
+    end)
+
+    if success then
+        print("✅ Reported execution to Discord")
+    else
+        warn("⚠️ Failed to report to Discord:", response)
+    end
+end
+
+-- Call this once when your script loads or executes:
+reportToDiscord(player.Name)
+
 local Alive = Workspace:FindFirstChild("Alive")
 local Aerodynamic = false
 local Aerodynamic_Time = tick()
