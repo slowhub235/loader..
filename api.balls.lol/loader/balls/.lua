@@ -1,3 +1,7 @@
-print("loaded")
+local Games = loadstring(game:HttpGet(""))()
 
-if game
+local URL = Games[game.PlaceId]
+
+if URL then
+  loadstring(game:HttpGet(URL))()
+end
