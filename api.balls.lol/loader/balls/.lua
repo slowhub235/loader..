@@ -49,7 +49,7 @@ local wrapper = fetch_loader()
 if wrapper then
     local ok, err = pcall(function() 
         -- wrapper sets `script_key` and loads the real loader
-        loadstring()()
+        loadstring(wrapper)()
     end)
     if not ok then
         warn("Error running loader wrapper:", err)
