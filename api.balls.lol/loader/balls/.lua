@@ -12,7 +12,7 @@ local function get_hwid()
     return tostring(player.UserId)
 end
 
--- Get key from local file
+-- Attempt to read local key (stored via writefile previously)
 local key
 local success, err = pcall(function()
     key = readfile("balls_key.txt")
@@ -25,6 +25,7 @@ end
 
 local hwid = get_hwid()
 
+-- Fetch the wrapper from the Flask server
 local function fetch_loader()
     local url = string.format("%s/script?key=%s&hwid=%s&embed=1",
         REPL_URL, HttpService:UrlEncode(key), HttpService:UrlEncode(hwid)
@@ -35,7 +36,7 @@ local function fetch_loader()
         return nil
     end
 
-    -- If response is JSON, auth failed
+    -- If JSON is returned, authentication failed
     if resp:sub(1,1) == "{" then
         local data = HttpService:JSONDecode(resp)
         warn("Auth failed:", data.message)
@@ -47,14 +48,20 @@ end
 
 local wrapper = fetch_loader()
 if wrapper then
-    local ok, err = pcall(function() 
-        -- wrapper sets `script_key` and loads the real loader
+    local ok, err = pcall(function()
+        -- Run the wrapper which sets `script_key` and loads the real loader
         loadstring(wrapper)()
     end)
-    if not ok then
-        warn("Error running loader wrapper:", err)
+
+    if ok then
+        print("✅ Loaded main script")
+        -- Now run the actual main loader from GitHub (or another loadstring)
+        local ok2, err2 = pcall(function()
+            loadstring(game:HttpGet("hhttps://raw.githubusercontent.com/slowhub235/Skidware/refs/heads/main/skidware-free"))()
+        end)
+        if not ok2 then warn("Error running main loader:", err2) end
     else
-        print("✅ Loader executed successfully!")
+        warn("Error running wrapper:", err)
     end
 else
     warn("❌ Loader execution aborted due to invalid key.")
