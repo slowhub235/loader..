@@ -2,7 +2,7 @@
 
 -- Table of games and their corresponding loader URLs
 local gameLoaders = {
-    [13772394625] = "https://raw.githubusercontent.com/slowhub235/Kavo-UI-Library-main-source/refs/heads/main/Kavo-UI-Library/main/source", -- Replace with actual GameId and loader URL
+    [13772394625] = "https://raw.githubusercontent.com/slowhub235/Skidware/refs/heads/main/skidware-free", -- Replace with actual GameId and loader URL
 }
 
 -- Get the current game ID and name
