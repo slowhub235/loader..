@@ -12,34 +12,34 @@ local function get_hwid()
     return tostring(player.UserId)
 end
 
--- Attempt to read local key (stored via writefile previously)
+-- Read the locally stored key
 local key
 local success, err = pcall(function()
     key = readfile("balls_key.txt")
 end)
 
 if not success or not key or key == "" then
-    warn("❌ No key found locally. Please redeem a key first.")
+    player:Kick("❌ No key found. Please redeem a key before playing.")
     return
 end
 
 local hwid = get_hwid()
 
--- Fetch the wrapper from the Flask server
+-- Function to fetch loader wrapper from the server
 local function fetch_loader()
     local url = string.format("%s/script?key=%s&hwid=%s&embed=1",
         REPL_URL, HttpService:UrlEncode(key), HttpService:UrlEncode(hwid)
     )
     local ok, resp = pcall(function() return game:HttpGet(url, true) end)
     if not ok then
-        warn("Failed to contact auth server:", resp)
+        player:Kick("❌ Failed to contact auth server: "..tostring(resp))
         return nil
     end
 
-    -- If JSON is returned, authentication failed
+    -- If JSON is returned, key is invalid/expired/HWID mismatch
     if resp:sub(1,1) == "{" then
         local data = HttpService:JSONDecode(resp)
-        warn("Auth failed:", data.message)
+        player:Kick("❌ Key invalid: "..tostring(data.message))
         return nil
     end
 
@@ -49,20 +49,24 @@ end
 local wrapper = fetch_loader()
 if wrapper then
     local ok, err = pcall(function()
-        -- Run the wrapper which sets `script_key` and loads the real loader
+        -- Run the wrapper: sets `script_key` and prepares loader
         loadstring(wrapper)()
     end)
 
     if ok then
         print("✅ Loaded main script")
-        -- Now run the actual main loader from GitHub (or another loadstring)
+
+        -- Execute the actual main loader
         local ok2, err2 = pcall(function()
-            loadstring(game:HttpGet("hhttps://raw.githubusercontent.com/slowhub235/Skidware/refs/heads/main/skidware-free"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/slowhub235/loader../refs/heads/main/api.balls.lol/loader/balls/.lua"))()
         end)
-        if not ok2 then warn("Error running main loader:", err2) end
+
+        if not ok2 then
+            warn("Error running main loader:", err2)
+            player:Kick("❌ Failed to execute main loader: "..tostring(err2))
+        end
     else
         warn("Error running wrapper:", err)
+        player:Kick("❌ Failed to execute loader wrapper: "..tostring(err))
     end
-else
-    warn("❌ Loader execution aborted due to invalid key.")
 end
