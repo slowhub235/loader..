@@ -1,5 +1,5 @@
 local Games = {
-  [13772394625] = "", -- Blox Fruit Sea 1
+  [13772394625] = "https://raw.githubusercontent.com/slowhub235/loader../refs/heads/main/skidwarefiles/v3/loaders/9f4b2d7a8c1e3f5067b8d9a2c4e5f0a1", --  blade ball
 }
 
 return Games
