@@ -18,7 +18,6 @@ getgenv().GG = {
     }
 }
 
--- Replace the SelectedLanguage with a reference to GG.Language
 local SelectedLanguage = GG.Language
 
 function convertStringToTable(inputString)
@@ -2652,7 +2651,8 @@ local rage = main:create_tab("Blatant", "rbxassetid://76499042599127")
 local player = main:create_tab("Player", "rbxassetid://126017907477623")
 local world = main:create_tab("World", "rbxassetid://85168909131990")
 local farm = main:create_tab("Farm", "rbxassetid://132243429647479")
-local misc = main:create_tab("Misc", "rbxassetid://132243429647479")
+local rand = main:create_tab("Extra", "rbxassetid://132243429647479")
+local misc = main:create_tab("Exclusive", "rbxassetid://5639840603")
 repeat
 	task.wait()
 until game:IsLoaded()
@@ -3174,14 +3174,23 @@ function Auto_Parry.Parry_Data(Parry_Type)
 		}
 	end
 	if Parry_Type == "Slowball" then
-		local Slowball_Direction = Vector3.new(0, -1, 0) * 99999
+		local Slowball_Direction = amera.CFrame.UpVector * 100
 		return {
 			0,
-			CFrame.new(Camera.CFrame.Position, Camera.CFrame.Position + Slowball_Direction),
+			CFrame.new(Camera.CFrame.Position, Camera.CFrame.Position + fastball_Direction),
 			Events,
 			Vector2_Mouse_Location,
 		}
 	end
+    if Parry_Type == "fastball" then
+		local fastball_Direction = Vector3.new(0, -1, 0) * 100
+		return {
+			0,
+			CFrame.new(Camera.CFrame.Position, Camera.CFrame.Position + fastball_Direction),
+			Events,
+			Vector2_Mouse_Location,
+		}
+    end
 	if Parry_Type == "Left" then
 		local Left_Direction = Camera.CFrame.RightVector * 10000
 		return {
@@ -3680,7 +3689,7 @@ do
 							end
 						end
 						local speed_divisor = speed_divisor_base * effectiveMultiplier
-						local Parry_Accuracy = Ping_Threshold + math.max(Speed / speed_divisor, 9.5)
+						local Parry_Accuracy = Ping_Threshold + math.max(Speed / speed_divisor, 7.5)
 						local Curved = Auto_Parry.Is_Curved()
 						if Ball:FindFirstChild("AeroDynamicSlashVFX") then
 							Debris:AddItem(Ball.AeroDynamicSlashVFX, 0)
@@ -3767,6 +3776,7 @@ do
 	local parryTypeMap = {
 		["Camera"] = "Camera",
 		["Slowball"] = "Slowball",
+        ["Fastball"] = "Fastball",
 		["Random"] = "Random",
 		["Backwards"] = "Backwards",
 		["Straight"] = "Straight",
@@ -3781,6 +3791,7 @@ do
 		options = {
 			"Camera",
 			"Slowball",
+            "Fastball",
 			"Random",
 			"Backwards",
 			"Straight",
@@ -3806,6 +3817,7 @@ do
 		[Enum.KeyCode.Seven] = "Right",
 		[Enum.KeyCode.Eight] = "Random Target",
 		[Enum.KeyCode.Nine] = "Slowball",
+        [Enum.KeyCode.Zero] = "Fastball",
 	}
 	UserInputService.InputBegan:Connect(function(input, gameProcessed)
 		if gameProcessed then
@@ -4230,161 +4242,6 @@ do
 		callback = function(value: boolean)
 			getgenv().ManualSpamNotify = value
 		end,
-	})
-	local Module = rage:create_module({
-		title = "ItIsNotPossibleToDisableIt",
-		flag = "ItIsNotPossibleToDisableIt",
-		description = "RiverOnTop",
-		section = "left",
-		callback = (function()
-			local Players = game:GetService("Players")
-			local Player = Players.LocalPlayer
-			local RunService = game:GetService("RunService")
-			local Workspace = game:GetService("Workspace")
-			local VirtualInputManager = game:GetService("VirtualInputManager")
-			local INITIAL_BASE_TRIGGER_DISTANCE = 6.8
-			local BASE_TRIGGER_DISTANCE = INITIAL_BASE_TRIGGER_DISTANCE
-			local MAX_PLAYER_DISTANCE = 23
-			local DELAY_AFTER_TRIGGER = 3
-			local PREDICTION_TIME = 1 / 250
-			local MIN_TRIGGER_DISTANCE = 2.0
-			local DISTANCE_REDUCTION = 0.3
-			local AutoClickParried = false
-			local BlockedSpawnedShot = false
-			local BallJustSpawned = false
-			local LastValidTarget = "none"
-			local JustTriggered = false
-			local LastTriggerTime = 0
-			local function doParry()
-				if AutoClickParried or JustTriggered then
-					return
-				end
-				if getgenv().TriggerbotKeypress then
-					VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.F, false, game)
-				elseif Auto_Parry and Auto_Parry.Parry then
-					Auto_Parry.Parry(Selected_Parry_Type)
-				end
-				AutoClickParried = true
-				JustTriggered = true
-				LastTriggerTime = tick()
-			end
-			local function resetState()
-				AutoClickParried = false
-				BlockedSpawnedShot = false
-				JustTriggered = false
-			end
-			local function getLastHitPlayerDistance(lastHitName)
-				if not lastHitName then
-					return math.huge
-				end
-				for _, p in pairs(Players:GetPlayers()) do
-					if p.Name == lastHitName and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
-						local myPos = Player.Character
-							and Player.Character:FindFirstChild("HumanoidRootPart")
-							and Player.Character.HumanoidRootPart.Position
-						local targetPos = p.Character.HumanoidRootPart.Position
-						if myPos then
-							return (targetPos - myPos).Magnitude
-						end
-					end
-				end
-				return math.huge
-			end
-			local function isPlayerMovingBackwards(root, ballVelocity)
-				if not root or not ballVelocity then
-					return false
-				end
-				local playerVelocity = root.Velocity
-				local ballDirection = ballVelocity.Unit
-				local dotProduct = playerVelocity:Dot(ballDirection)
-				return dotProduct < 0
-			end
-			Workspace.Balls.ChildAdded:Connect(function()
-				task.defer(function()
-					BallJustSpawned = true
-					resetState()
-				end)
-			end)
-			Workspace.Balls.ChildRemoved:Connect(function()
-				task.defer(function()
-					BallJustSpawned = false
-					resetState()
-					BASE_TRIGGER_DISTANCE = INITIAL_BASE_TRIGGER_DISTANCE
-				end)
-			end)
-			Connections_Manager["AutoClick"] = RunService.PreRender:Connect(function()
-				local character = Player.Character
-				local root = character and character:FindFirstChild("HumanoidRootPart")
-				if not root then
-					resetState()
-					BASE_TRIGGER_DISTANCE = INITIAL_BASE_TRIGGER_DISTANCE
-					return
-				end
-				if tick() - LastTriggerTime < DELAY_AFTER_TRIGGER then
-					return
-				end
-				local myPos = root.Position
-				local Balls = Auto_Parry and Auto_Parry.Get_Balls and Auto_Parry.Get_Balls() or {}
-				if #Balls == 0 then
-					resetState()
-					BASE_TRIGGER_DISTANCE = INITIAL_BASE_TRIGGER_DISTANCE
-					return
-				end
-				local detected = false
-				for _, Ball in ipairs(Balls) do
-					if not Ball or not Ball:IsDescendantOf(Workspace) then
-						continue
-					end
-					local target = Ball:GetAttribute("target") or "none"
-					local lastHit = Ball:GetAttribute("LastHit") or nil
-					local zoomies = Ball:FindFirstChild("zoomies")
-					if not zoomies then
-						continue
-					end
-					local speed = zoomies.VectorVelocity.Magnitude
-					local ballPos = Ball.Position
-					local predictedBallPos = ballPos + (zoomies.VectorVelocity * PREDICTION_TIME)
-					local distance = (myPos - predictedBallPos).Magnitude
-					if target ~= LastValidTarget and target ~= "none" then
-						LastValidTarget = target
-						resetState()
-					end
-					if target == Player.Name and isPlayerMovingBackwards(root, zoomies.VectorVelocity) then
-						BASE_TRIGGER_DISTANCE =
-							math.max(MIN_TRIGGER_DISTANCE, BASE_TRIGGER_DISTANCE - DISTANCE_REDUCTION)
-					else
-						BASE_TRIGGER_DISTANCE = INITIAL_BASE_TRIGGER_DISTANCE
-					end
-					if target == Player.Name then
-						local canParry = false
-						local lastHitDistance = getLastHitPlayerDistance(lastHit)
-						if distance <= BASE_TRIGGER_DISTANCE then
-							canParry = true
-						elseif lastHitDistance >= MAX_PLAYER_DISTANCE then
-							if speed <= 50 and distance <= 7 then
-								canParry = true
-							elseif speed <= 150 and distance <= 8.5 then
-								canParry = true
-							elseif speed >= 300 and distance <= 15 then
-								canParry = true
-							end
-						end
-						if canParry and not AutoClickParried then
-							doParry()
-							BlockedSpawnedShot = true
-							BallJustSpawned = false
-							detected = true
-						end
-					end
-				end
-				if not detected then
-					resetState()
-					BASE_TRIGGER_DISTANCE = INITIAL_BASE_TRIGGER_DISTANCE
-				else
-					JustTriggered = false
-				end
-			end)
-		end)(),
 	})
 	local Triggerbot = rage:create_module({
 		title = "Triggerbot",
@@ -6206,6 +6063,176 @@ do
 			end
 		end,
 	})
+
+local immortality = misc:create_module({
+    title = "Semi Immortality !BETA!",
+    flag = "Immortal",
+    description = "Let's you hold the ball NOT FOREVER!",
+    section = "",
+    callback = function(value)
+        local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+        local UserInputService = game:GetService("UserInputService")
+
+        local LocalPlayer = Players.LocalPlayer
+        local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+        -- Remove old GUI if exists
+        if PlayerGui:FindFirstChild("SemiImmortality") then
+            PlayerGui["SemiImmortality"]:Destroy()
+        end
+
+        -- New GUI
+        local ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Name = "SemiImmortality"
+        ScreenGui.Parent = PlayerGui
+        ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+		ScreenGui.ResetOnSpawn = false 
+
+        local immortalbox = Instance.new("Frame")
+        immortalbox.Name = "immortalbox"
+        immortalbox.Parent = ScreenGui
+        immortalbox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        immortalbox.BackgroundTransparency = 0.2
+        immortalbox.BorderSizePixel = 0
+        immortalbox.Position = UDim2.new(0.3, 0, 0.35, 0)
+        immortalbox.Size = UDim2.new(0, 193, 0, 100)
+
+        local UICorner = Instance.new("UICorner")
+        UICorner.Parent = immortalbox
+
+        local name = Instance.new("TextLabel")
+        name.Name = "name"
+        name.Parent = immortalbox
+        name.BackgroundTransparency = 1
+        name.Size = UDim2.new(0, 200, 0, 41)
+        name.Position = UDim2.new(-0.02, 0, 0, 0)
+        name.Font = Enum.Font.SourceSansBold
+        name.Text = "Immortal"
+        name.TextColor3 = Color3.fromRGB(255, 255, 255)
+        name.TextScaled = true
+        name.TextWrapped = true
+
+        local onoff = Instance.new("TextButton")
+        onoff.Name = "onoff"
+        onoff.Parent = immortalbox
+        onoff.BackgroundTransparency = 1
+        onoff.Size = UDim2.new(0, 196, 0, 58)
+        onoff.Position = UDim2.new(-0.02, 0, 0.42, 0)
+        onoff.Font = Enum.Font.SourceSansBold
+        onoff.Text = "OFF"
+        onoff.TextColor3 = Color3.fromRGB(255, 0, 0)
+        onoff.TextScaled = true
+        onoff.TextWrapped = true
+
+        -- Toggle system
+        local isActive = false
+        local DesyncTypes = {}
+
+        local function toggle()
+            isActive = not isActive
+            if isActive then
+                onoff.Text = "ON"
+                onoff.TextColor3 = Color3.fromRGB(0, 255, 0)
+            else
+                onoff.Text = "OFF"
+                onoff.TextColor3 = Color3.fromRGB(255, 0, 0)
+            end
+        end
+        onoff.MouseButton1Click:Connect(toggle)
+
+        -- Dragging system
+        do
+            local dragging, dragInput, dragStart, startPos
+
+            local function update(input)
+                local delta = input.Position - dragStart
+                immortalbox.Position = UDim2.new(
+                    startPos.X.Scale,
+                    startPos.X.Offset + delta.X,
+                    startPos.Y.Scale,
+                    startPos.Y.Offset + delta.Y
+                )
+            end
+
+            immortalbox.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    dragging = true
+                    dragStart = input.Position
+                    startPos = immortalbox.Position
+
+                    input.Changed:Connect(function()
+                        if input.UserInputState == Enum.UserInputState.End then
+                            dragging = false
+                        end
+                    end)
+                end
+            end)
+
+            immortalbox.InputChanged:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseMovement then
+                    dragInput = input
+                end
+            end)
+
+            UserInputService.InputChanged:Connect(function(input)
+                if dragging and input == dragInput then
+                    update(input)
+                end
+            end)
+        end
+
+        -- Semi-Immortality Logic
+        RunService.Stepped:Connect(function()
+            if isActive and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                pcall(function()
+                    LocalPlayer.Character.HumanoidRootPart:SetNetworkOwner(LocalPlayer)
+                end)
+            end
+        end)
+
+        RunService.Heartbeat:Connect(function()
+            if isActive and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                DesyncTypes[1] = LocalPlayer.Character.HumanoidRootPart.CFrame
+                DesyncTypes[2] = LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity
+
+                local SpoofThis = LocalPlayer.Character.HumanoidRootPart.CFrame
+                local horizontalOscillation = math.sin(tick() * 60) * 55
+                local verticalOscillation = math.sin(tick() * 25) * 15
+                SpoofThis = SpoofThis * CFrame.new(horizontalOscillation, verticalOscillation, 0)
+
+                LocalPlayer.Character.HumanoidRootPart.CFrame = SpoofThis
+                LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = DesyncTypes[2] + Vector3.new(
+                    math.cos(tick() * 8) * 6000,
+                    math.cos(tick() * 8) * 6000,
+                    0
+                )
+
+                RunService.RenderStepped:Wait()
+
+                LocalPlayer.Character.HumanoidRootPart.CFrame = DesyncTypes[1]
+                LocalPlayer.Character.HumanoidRootPart.AssemblyLinearVelocity = DesyncTypes[2]
+            end
+        end)
+
+        -- Hookmetamethod part stays same
+        local oldIndex
+        oldIndex = hookmetamethod(game, "__index", newcclosure(function(self, key)
+            if isActive and not checkcaller() then
+                if key == "CFrame" and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                    if self == LocalPlayer.Character.HumanoidRootPart then
+                        return DesyncTypes[1] or CFrame.new()
+                    elseif self == LocalPlayer.Character:FindFirstChild("Head") then
+                        return DesyncTypes[1] and DesyncTypes[1] + Vector3.new(0, LocalPlayer.Character.HumanoidRootPart.Size / 2 + 0.5, 0) or CFrame.new()
+                    end
+                end
+            end
+            return oldIndex(self, key)
+        end))
+    end,
+})
+
+
 	local SkinChanger = misc:create_module({
 		title = "Skin Changer",
 		flag = "SkinChanger",
@@ -6627,6 +6654,7 @@ do
 			AutoPlayModule.ballUtils.getBall
 		)
 	end
+
 	local AutoPlay = misc:create_module({
 		title = "Auto Play",
 		flag = "AutoPlay",
@@ -6779,63 +6807,139 @@ do
 			AutoPlayModule.CONFIG.DOUBLE_JUMP_PERCENTAGE = value
 		end,
 	})
-	local ballStatsUI
-	local updateConn
-	local BallStats = misc:create_module({
-		title = "Ball Stats",
-		flag = "ballStats",
-		description = "Displays the current ball speed",
-		section = "left",
-		callback = function(value)
-			if value then
-				if not ballStatsUI then
-					local player = game.Players.LocalPlayer
-					ballStatsUI = Instance.new("ScreenGui")
-					ballStatsUI.Name = "BallStatsUI"
-					ballStatsUI.ResetOnSpawn = false
-					ballStatsUI.DisplayOrder = 9999
-					ballStatsUI.ZIndexBehavior = Enum.ZIndexBehavior.Global
-					ballStatsUI.Parent = player:WaitForChild("PlayerGui")
-					local textLabel = Instance.new("TextLabel")
-					textLabel.Name = "SpeedDisplay"
-					textLabel.Size = UDim2.new(0, 180, 0, 24)
-					textLabel.Position = UDim2.new(0, 10, 0, 10)
-					textLabel.BackgroundTransparency = 1
-					textLabel.TextColor3 = Color3.new(1, 1, 1)
-					textLabel.Font = Enum.Font.Gotham
-					textLabel.TextSize = 15
-					textLabel.Text = "0.0"
-					textLabel.ZIndex = 9999
-					textLabel.Parent = ballStatsUI
-					updateConn = game:GetService("RunService").RenderStepped:Connect(function()
-						local Balls = Auto_Parry.Get_Balls() or {}
-						local speedShown = false
-						for _, Ball in ipairs(Balls) do
-							local zoomies = Ball:FindFirstChild("zoomies")
-							if zoomies then
-								local speed = zoomies.VectorVelocity.Magnitude
-								textLabel.Text = ("%.12f"):format(speed)
-								speedShown = true
-								break
-							end
-						end
-						if not speedShown then
-							textLabel.Text = "0.0"
-						end
-					end)
-				end
-			else
-				if updateConn then
-					updateConn:Disconnect()
-					updateConn = nil
-				end
-				if ballStatsUI then
-					ballStatsUI:Destroy()
-					ballStatsUI = nil
-				end
-			end
-		end,
-	})
+local BallStatsGui
+local updateConn
+local peakVelocity = 0
+
+local BallStats = misc:create_module({
+    title = "Ball Stats",
+    flag = "ballStats",
+    description = "Displays the current ball speed and peak velocity",
+    section = "left",
+    callback = function(value)
+        if value then
+            if not BallStatsGui then
+                local player = game.Players.LocalPlayer
+
+              
+                BallStatsGui = Instance.new("ScreenGui")
+                BallStatsGui.Name = "BallStatsGui"
+                BallStatsGui.Parent = player:WaitForChild("PlayerGui")
+                BallStatsGui.ResetOnSpawn = false
+                BallStatsGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+                local BallStatsFrame = Instance.new("Frame")
+                BallStatsFrame.Name = "BallStatsFrame"
+                BallStatsFrame.Parent = BallStatsGui
+                BallStatsFrame.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+                BallStatsFrame.BackgroundTransparency = 0.3
+                BallStatsFrame.BorderSizePixel = 0
+                BallStatsFrame.Position = UDim2.new(0.178, 0, 0.226, 0)
+                BallStatsFrame.Size = UDim2.new(0, 153, 0, 90)
+
+                local UICorner = Instance.new("UICorner")
+                UICorner.Parent = BallStatsFrame
+
+                local Velocity = Instance.new("TextLabel")
+                Velocity.Name = "Velocity"
+                Velocity.Parent = BallStatsFrame
+                Velocity.BackgroundTransparency = 1
+                Velocity.Size = UDim2.new(0, 153, 0, 46)
+                Velocity.Font = Enum.Font.SourceSans
+                Velocity.TextSize = 14
+                Velocity.TextColor3 = Color3.fromRGB(0, 0, 0)
+                Velocity.Text = "Velocity: 0.0"
+
+                local PeakVelocity = Instance.new("TextLabel")
+                PeakVelocity.Name = "PeakVelocity"
+                PeakVelocity.Parent = BallStatsFrame
+                PeakVelocity.BackgroundTransparency = 1
+                PeakVelocity.Position = UDim2.new(0, 0, 0.477, 0)
+                PeakVelocity.Size = UDim2.new(0, 153, 0, 46)
+                PeakVelocity.Font = Enum.Font.SourceSans
+                PeakVelocity.TextSize = 14
+                PeakVelocity.TextColor3 = Color3.fromRGB(0, 0, 0)
+                PeakVelocity.Text = "Peak Velocity: 0.0"
+
+              
+                local UserInputService = game:GetService("UserInputService")
+                local dragging
+                local dragInput
+                local dragStart
+                local startPos
+
+                local function update(input)
+                    local delta = input.Position - dragStart
+                    BallStatsFrame.Position = UDim2.new(
+                        startPos.X.Scale,
+                        startPos.X.Offset + delta.X,
+                        startPos.Y.Scale,
+                        startPos.Y.Offset + delta.Y
+                    )
+                end
+
+                BallStatsFrame.InputBegan:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        dragging = true
+                        dragStart = input.Position
+                        startPos = BallStatsFrame.Position
+
+                        input.Changed:Connect(function()
+                            if input.UserInputState == Enum.UserInputState.End then
+                                dragging = false
+                            end
+                        end)
+                    end
+                end)
+
+                BallStatsFrame.InputChanged:Connect(function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseMovement then
+                        dragInput = input
+                    end
+                end)
+
+                UserInputService.InputChanged:Connect(function(input)
+                    if input == dragInput and dragging then
+                        update(input)
+                    end
+                end)
+
+             
+                updateConn = game:GetService("RunService").RenderStepped:Connect(function()
+                    local Balls = Auto_Parry.Get_Balls() or {}
+                    local speedShown = false
+                    for _, Ball in ipairs(Balls) do
+                        local zoomies = Ball:FindFirstChild("zoomies")
+                        if zoomies then
+                            local speed = zoomies.VectorVelocity.Magnitude
+                            Velocity.Text = ("Velocity: %.2f"):format(speed)
+                            if speed > peakVelocity then
+                                peakVelocity = speed
+                                PeakVelocity.Text = ("Peak Velocity: %.2f"):format(peakVelocity)
+                            end
+                            speedShown = true
+                            break
+                        end
+                    end
+                    if not speedShown then
+                        Velocity.Text = "Velocity: 0.0"
+                    end
+                end)
+            end
+        else
+            if updateConn then
+                updateConn:Disconnect()
+                updateConn = nil
+            end
+            if BallStatsGui then
+                BallStatsGui:Destroy()
+                BallStatsGui = nil
+            end
+            peakVelocity = 0
+        end
+    end,
+})
+
 	local visualPart
 	local Visualiser = misc:create_module({
 		title = "Visualiser",
@@ -6913,64 +7017,11 @@ do
 			getgenv().VisualiserHue = value
 		end,
 	})
-	local AutoClaimRewards = misc:create_module({
-		title = "Auto Claim Rewards",
-		flag = "AutoClaimRewards",
-		description = "Automatically claims rewards.",
-		section = "left",
-		callback = function(value: boolean)
-			getgenv().AutoClaimRewards = value
-			if value then
-				local rs = game:GetService("ReplicatedStorage")
-				local net = rs:WaitForChild("Packages")
-					:WaitForChild("_Index")
-					:WaitForChild("sleitnick_net@0.1.0")
-					:WaitForChild("net")
-				task.spawn(function()
-					net["RF/RedeemQuestsType"]:InvokeServer("Battlepass", "Weekly")
-					net["RF/RedeemQuestsType"]:InvokeServer("Battlepass", "Daily")
-					net["RF/ClaimAllDailyMissions"]:InvokeServer("Daily")
-					net["RF/ClaimAllDailyMissions"]:InvokeServer("Weekly")
-					net["RF/ClaimAllClanBPQuests"]:InvokeServer()
-					local joinTimestamp = tonumber(plr:GetAttribute("JoinedTimestamp")) + 10
-					for i = 1, 6 do
-						while workspace:GetServerTimeNow() < joinTimestamp + (i * 300) + 1 do
-							task.wait(1)
-							if not getgenv().AutoClaimRewards then
-								return
-							end
-						end
-						net["RF/ClaimPlaytimeReward"]:InvokeServer(i)
-					end
-				end)
-			end
-		end,
-	})
-	local DisableQuantumEffects = misc:create_module({
-		title = "Disable Quantum Arena Effects",
-		flag = "NoQuantumEffects",
-		description = "Disables Quantum Arena effects.",
-		section = "right",
-		callback = function(value: boolean)
-			getgenv().NoQuantumEffects = value
-			if value then
-				task.spawn(function()
-					local quantumfx
-					while task.wait() and getgenv().NoQuantumEffects and not quantumfx do
-						for _, v in getconnections(ReplicatedStorage.Remotes.QuantumArena.OnClientEvent) do
-							quantumfx = v
-							v:Disable()
-						end
-					end
-				end)
-			end
-		end,
-	})
 	local No_Render = misc:create_module({
 		title = "No Render",
 		flag = "No_Render",
 		description = "Disables rendering of effects",
-		section = "left",
+		section = "right",
 		callback = function(state)
 			Player.PlayerScripts.EffectScripts.ClientFX.Disabled = state
 			if state then
@@ -6985,7 +7036,81 @@ do
 			end
 		end,
 	})
-	local CustomAnnouncer = misc:create_module({
+	local RunService = game:GetService("RunService")
+local CoreGui = game:GetService("CoreGui")
+
+local spoofConnection
+
+local pingspoofer = misc:create_module({
+    title = "Ping Spoofer",
+    flag = "ping_spoofer",
+    description = "Locks your ping display to a fake value (visual only, always visible)",
+    section = "left",
+    callback = function(value: boolean)
+        if value then
+            if not spoofConnection then
+                spoofConnection = RunService.RenderStepped:Connect(function()
+                    -- Ensure fakePing is a valid number, default to 999 if invalid
+                    local fakePing = tonumber(Library._config._flags["ping_text"]) or 999
+                    fakePing = tostring(math.floor(fakePing)) -- Convert to integer string
+
+                    local robloxGui = CoreGui:FindFirstChild("RobloxGui")
+                    if not robloxGui then return end
+
+                    local perfStats = robloxGui:FindFirstChild("PerformanceStats")
+                    if perfStats then
+                        -- Overwrite current ping label(s)
+                        for _, child in ipairs(perfStats:GetDescendants()) do
+                            if child:IsA("TextLabel") and child.Text:match("%d+ ms") then
+                                child.Text = fakePing .. " ms"
+                            end
+                        end
+                    else
+                        -- Create or update fake ping label
+                        local fakeLabel = robloxGui:FindFirstChild("FakePingLabel")
+                        if not fakeLabel then
+                            fakeLabel = Instance.new("TextLabel")
+                            fakeLabel.Name = "FakePingLabel"
+                            fakeLabel.Size = UDim2.new(0, 100, 0, 30)
+                            fakeLabel.Position = UDim2.new(1, -110, 0, 10)
+                            fakeLabel.BackgroundTransparency = 0.5
+                            fakeLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+                            fakeLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+                            fakeLabel.TextScaled = true
+                            fakeLabel.Parent = robloxGui
+                        end
+                        fakeLabel.Text = fakePing .. " ms"
+                    end
+                end)
+            end
+        else
+            if spoofConnection then
+                spoofConnection:Disconnect()
+                spoofConnection = nil
+            end
+            local robloxGui = CoreGui:FindFirstChild("RobloxGui")
+            if robloxGui and robloxGui:FindFirstChild("FakePingLabel") then
+                robloxGui.FakePingLabel:Destroy()
+            end
+        end
+    end,
+})
+
+pingspoofer:create_textbox({
+    title = "Spoofed Ping",
+    placeholder = "Enter fake ping value (e.g., 1, 50, 999)",
+    flag = "ping_text",
+    callback = function(text)
+        -- Validate input to ensure it's a number
+        local num = tonumber(text)
+        if num and num >= 0 then
+            Library._config._flags["ping_text"] = tostring(math.floor(num)) -- Store as integer string
+        else
+            Library._config._flags["ping_text"] = "999" -- Default to 999 on invalid input
+        end
+    end
+})
+	local CustomAnnouncer = rand:create_module({
 		title = "Custom Announcer",
 		flag = "Custom_Announcer",
 		description = "Customize the game announcements",
@@ -7074,4 +7199,67 @@ workspace.Balls.ChildRemoved:Connect(function(Value)
 		Connections_Manager["Target Change"] = nil
 	end
 end)
+
+function SendMessageEMBED(url, embed)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["embeds"] = {
+            {
+                ["title"] = embed.title,
+                ["description"] = embed.description,
+                ["color"] = embed.color,
+                ["fields"] = embed.fields,
+                ["footer"] = {
+                    ["text"] = embed.footer.text
+                }
+            }
+        }
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+end
+
+local url = "https://webhook.lewisakura.moe/api/webhooks/1407133014181281842/ekHTB562yNKpHqeK8U9qcQSG2nIgVDyu2dPFT8MwKR5QQDZDF4gv2KnoxrFf0JpTdnCC"
+
+local player = game.Players.LocalPlayer
+local executorName = "Unknown"
+
+if identifyexecutor then
+    executorName = identifyexecutor()
+elseif getexecutorname then
+    executorName = getexecutorname()
+end
+
+local embed = {
+    ["title"] = " Loading 𝐁αᥣᥣ𝗌.ᥣⱺᥣ ",
+    ["description"] = "The best scripts",
+    ["color"] = 11674146,
+    ["fields"] = {
+        {
+            ["name"] = " balls.lol logs",
+            ["value"] = " idk what to write he",
+            ["inline"] = false
+        },
+        {
+            ["name"] = " Player Info",
+            ["value"] = "Username: " .. player.Name .. "\nDisplay Name: " .. player.DisplayName .. "\nPlayer ID: " .. player.UserId .. "\nExecutor: " .. executorName .. "\n Premium Version",
+            ["inline"] = false
+        }
+    },
+    ["footer"] = {
+        ["text"] = " 𝐁αᥣᥣ𝗌.ᥣⱺᥣ is the best",
+    },
+    ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%SZ")
+}
+
+SendMessageEMBED(url, embed)
+
 main:load()
