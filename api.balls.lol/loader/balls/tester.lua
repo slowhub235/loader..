@@ -4607,28 +4607,31 @@ local autotrade = misc:create_module({
 })
 	local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
 
+-- Local player
 local LocalPlayer = Players.LocalPlayer
 
+-- Trade remote
 local tradeRemote = ReplicatedStorage.Packages._Index["sleitnick_net@0.1.0"].net["RF/Trading/SendTradeRequest"]
-local confirmRemote = ReplicatedStorage.Packages._Index["sleitnick_net@0.1.0"].net["RF/Trading/ConfirmTrade"]
-local addItemRemote = ReplicatedStorage.Packages._Index["sleitnick_net@0.1.0"].net["RF/Trading/AddItemToTrade"]
 
+-- Function to get a random player (excluding self)
 local function getRandomPlayer()
     local players = Players:GetPlayers()
     local validPlayers = {}
+
     for _, player in ipairs(players) do
         if player ~= LocalPlayer then
             table.insert(validPlayers, player)
         end
     end
+
     if #validPlayers > 0 then
         return validPlayers[math.random(1, #validPlayers)]
     end
     return nil
 end
 
+-- Function to send trade request
 local function sendTradeRequest()
     local targetPlayer = getRandomPlayer()
     if targetPlayer then
@@ -4639,23 +4642,24 @@ local function sendTradeRequest()
     end
 end
 
+-- Module toggle
 local tradeLoop
-local autoAcceptConnection
-local autoPlaceConnection
 
-local AutoTrade = misc:create_module({ 
+local autotrade = misc:create_module({ 
     title = "Auto Trade", 
     flag = "autotrade", 
     description = "Auto Trades", 
     section = "right",
     callback = function(state)
         if state then
+            -- Start looping trades
             tradeLoop = task.spawn(function()
-                while task.wait(10) do
+                while task.wait(10) do -- sends every 10 seconds
                     sendTradeRequest()
                 end
             end)
         else
+            -- Stop loop
             if tradeLoop then
                 task.cancel(tradeLoop)
                 tradeLoop = nil
@@ -4664,49 +4668,6 @@ local AutoTrade = misc:create_module({
     end
 })
 
-AutoTrade:create_checkbox({ 
-    title = "Auto Confirm", 
-    flag = "act", 
-    callback = function(state) 
-        if state then
-            if not autoAcceptConnection then
-                autoAcceptConnection = RunService.Heartbeat:Connect(function()
-                    confirmRemote:InvokeServer()
-                    print("Auto-accepted trade on local player's end")
-                end)
-            end
-        else
-            if autoAcceptConnection then
-                autoAcceptConnection:Disconnect()
-                autoAcceptConnection = nil
-            end
-        end
-    end 
-})
-
-AutoTrade:create_checkbox({
-    title = "Auto Place Item",
-    flag = "api",
-    callback = function(state)
-        if state then
-            if not autoPlaceConnection then
-                autoPlaceConnection = RunService.Heartbeat:Connect(function()
-                    local args = {
-                        [1] = "Sword",
-                        [2] = "SR2gdQziAHGtPU9CzftK5"
-                    }
-                    addItemRemote:InvokeServer(unpack(args))
-                    print("Auto-placed Sword into trade")
-                end)
-            end
-        else
-            if autoPlaceConnection then
-                autoPlaceConnection:Disconnect()
-                autoPlaceConnection = nil
-            end
-        end
-    end
-})
 
 	local LobbyAP = rage:create_module({
 		title = "Lobby AP",
