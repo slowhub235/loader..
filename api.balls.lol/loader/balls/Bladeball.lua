@@ -2670,7 +2670,7 @@ local Parry_Key = nil
 local Speed_Divisor_Multiplier = 1.1
 local LobbyAP_Speed_Divisor_Multiplier = 1.1
 local firstParryFired = false
-local ParryThreshold = .5
+local ParryThreshold = .4
 local firstParryType = "F_Key"
 local Previous_Positions = {}
 local VirtualInputManager = game:GetService("VirtualInputManager")
@@ -2678,12 +2678,8 @@ local VirtualInputService = game:GetService("VirtualInputManager")
 local parryCooldown = 0.0
 local lastParryTime = 0
 local GuiService = game:GetService("GuiService")
-local function updateNavigation(guiObject)
-	if guiObject then
-		GuiService.SelectedObject = guiObject
-	else
-		GuiService.SelectedObject = nil
-	end
+local function updateNavigation(guiObject: GuiObject | nil)
+	GuiService.SelectedObject = guiObject
 end
 local function performFirstPress(parryType)
 	if parryType == "F_Key" then
@@ -3872,6 +3868,13 @@ do
 				getgenv().InfinityDetection = value
 			end
 		end,
+	})
+	module:create_checkbox({
+		title = "Dribble Detection",
+		flag = "Dirbble_detection",
+		callback = function(state)
+			
+		end
 	})
 	module:create_checkbox({
 		title = "Death Slash Detection",
@@ -6491,6 +6494,25 @@ local immortalityv2 = misc:create_module({
 			end
 		end,
 	})
+		local player = game:GetService("Players").LocalPlayer
+local moneyLabel = player.PlayerGui.HUD.LeftFrame.Top.MoneyFrame.MoneyLabel
+	
+	local coinchanger = misc:create_module({
+		title = "Coin Changer (Visual)",
+		flag = "CoinChanger",
+		description = "Skin Changer",
+		section = "left",
+		callback = function(state)
+		end
+	})
+	coinchanger:create_textbox({
+    title = "Coin CHanger (Visual)",
+    placeholder = "Enter Number OF Wanted Coins",
+    flag = "coins",
+    callback = function(text)
+		moneyLabel.Text = text
+    end
+})
 	local AutoPlayModule = {}
 	AutoPlayModule.CONFIG = {
 		DEFAULT_DISTANCE = 30,
@@ -7359,62 +7381,6 @@ local BallStats = misc:create_module({
 			end
 		end,
 	})
-local spoofConnection
-
-local pingspoofer = misc:create_module({
-    title = "Ping Spoofer",
-    flag = "ping_spoofer",
-    description = "Locks your ping display to a fake number",
-    section = "left",
-    callback = function(value: boolean)
-        if value then
-            if not spoofConnection then
-                spoofConnection = RunService.RenderStepped:Connect(function()
-                    
-                    local fakePing = tonumber(Library._config._flags["ping_text"]) or 999
-                    fakePing = tostring(math.floor(fakePing))
-
-                    local robloxGui = CoreGui:FindFirstChild("RobloxGui")
-                    if not robloxGui then return end
-
-                    local perfStats = robloxGui:FindFirstChild("PerformanceStats")
-                    if perfStats then
-                     
-                        for _, child in ipairs(perfStats:GetDescendants()) do
-                            if child:IsA("TextLabel") and child.Text:match("%d+ ms") then
-                                child.Text = fakePing .. " ms"
-                            end
-                        end
-                    else
-                    
-                    end
-                end)
-            end
-        else
-            if spoofConnection then
-                spoofConnection:Disconnect()
-                spoofConnection = nil
-            end
-            local robloxGui = CoreGui:FindFirstChild("RobloxGui")
-            if robloxGui and robloxGui:FindFirstChild("FakePingLabel") then
-                robloxGui.FakePingLabel:Destroy()
-            end
-        end
-    end,
-})
-
-pingspoofer:create_textbox({
-    title = "Spoofed Ping",
-    placeholder = "Enter fake ping number)",
-    flag = "ping_text",
-    callback = function(text)
-		
-        local num = tonumber(text)
-        if num and num >= 0 then
-            Library._config._flags["ping_text"] = tostring(math.floor(num))
-        end
-    end
-})
 	local CustomAnnouncer = misc:create_module({
 		title = "Custom Announcer",
 		flag = "Custom_Announcer",
@@ -7504,77 +7470,5 @@ workspace.Balls.ChildRemoved:Connect(function(Value)
 		Connections_Manager["Target Change"] = nil
 	end
 end)
-
-function SendMessageEMBED(url, embed)
-    local http = game:GetService("HttpService")
-    local headers = {
-        ["Content-Type"] = "application/json"
-    }
-    local data = {
-        ["embeds"] = {
-            {
-                ["title"] = embed.title,
-                ["description"] = embed.description,
-                ["color"] = embed.color,
-                ["fields"] = embed.fields,
-                ["footer"] = {
-                    ["text"] = embed.footer.text
-                }
-            }
-        }
-    }
-    local body = http:JSONEncode(data)
-    local response = request({
-        Url = url,
-        Method = "POST",
-        Headers = headers,
-        Body = body
-    })
-end
-
-local url = "https://webhook.lewisakura.moe/api/webhooks/1407133014181281842/ekHTB562yNKpHqeK8U9qcQSG2nIgVDyu2dPFT8MwKR5QQDZDF4gv2KnoxrFf0JpTdnCC"
-
-local player = game.Players.LocalPlayer
-local executorName = "Unknown"
-
-if identifyexecutor then
-    executorName = identifyexecutor()
-elseif getexecutorname then
-    executorName = getexecutorname()
-end
-
-local embed = {
-    ["title"] = " Loading 𝐁αᥣᥣ𝗌.ᥣⱺᥣ ",
-    ["description"] = "The best scripts",
-    ["color"] = 11674146,
-    ["fields"] = {
-        {
-            ["name"] = " Successfully Loaded 𝐁αᥣᥣ𝗌.ᥣⱺᥣ!",
-            ["value"] = " Enjoy exploiting, because **𝐁αᥣᥣ𝗌.ᥣⱺᥣ is on top!** ",
-            ["inline"] = false
-        },
-        {
-            ["name"] = " Features",
-            ["value"] = "Auto Parry\n Speed Changer\n Immortality\n Manual Spam\n Auto Curve\n A lot more",
-            ["inline"] = true
-        },
-        {
-            ["name"] = " Need Help?",
-            ["value"] = "Go here to get help https://discord.com/channels/1388970851054911589/1391598978906329218",
-            ["inline"] = true
-        },
-        {
-            ["name"] = " Player Info",
-            ["value"] = "Username: " .. player.Name .. "\nDisplay Name: " .. player.DisplayName .. "\nPlayer ID: " .. player.UserId .. "\nExecutor: " .. executorName .. "\n Premium Version",
-            ["inline"] = false
-        }
-    },
-    ["footer"] = {
-        ["text"] = " 𝐁αᥣᥣ𝗌.ᥣⱺᥣ is the best",
-    },
-    ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%SZ")
-}
-
-SendMessageEMBED(url, embed)
 
 main:load()
