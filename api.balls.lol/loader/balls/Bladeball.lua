@@ -6494,25 +6494,6 @@ local immortalityv2 = misc:create_module({
 			end
 		end,
 	})
-		local player = game:GetService("Players").LocalPlayer
-local moneyLabel = player.PlayerGui.HUD.LeftFrame.Top.MoneyFrame.MoneyLabel
-	
-	local coinchanger = misc:create_module({
-		title = "Coin Changer (Visual)",
-		flag = "CoinChanger",
-		description = "Skin Changer",
-		section = "left",
-		callback = function(state)
-		end
-	})
-	coinchanger:create_textbox({
-    title = "Coin CHanger (Visual)",
-    placeholder = "Enter Number OF Wanted Coins",
-    flag = "coins",
-    callback = function(text)
-		moneyLabel.Text = text
-    end
-})
 	local AutoPlayModule = {}
 	AutoPlayModule.CONFIG = {
 		DEFAULT_DISTANCE = 30,
