@@ -52,8 +52,8 @@ if old_Balls then
     Debris:AddItem(old_Balls, 0)
 end
 
-if not isfolder("Balls") then
-    makefolder("Balls")
+if not isfolder("inv") then
+    makefolder("inv")
 end
 
 
@@ -525,39 +525,39 @@ function Library:create_ui()
     Balls.Name = 'Balls'
     Balls.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     Balls.Parent = CoreGui
-    
+
     local Container = Instance.new('Frame')
     Container.ClipsDescendants = true
-    Container.BorderColor3 = Color3.fromRGB(30, 30, 30)
+    Container.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Container.AnchorPoint = Vector2.new(0.5, 0.5)
     Container.Name = 'Container'
     Container.BackgroundTransparency = 0.4
-    Container.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Container.Position = UDim2.new(0.5, 0, 0.5, 0)
     Container.Size = UDim2.new(0, 0, 0, 0)
     Container.Active = true
     Container.BorderSizePixel = 0
     Container.Parent = Balls
-    
+
     local UICorner = Instance.new('UICorner')
     UICorner.CornerRadius = UDim.new(0, 10)
     UICorner.Parent = Container
-    
+
     local UIStroke = Instance.new('UIStroke')
-    UIStroke.Color = Color3.fromRGB(30, 30, 30)
+    UIStroke.Color = Color3.fromRGB(0, 0, 0)
     UIStroke.Transparency = 0.5
     UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     UIStroke.Parent = Container
-    
+
     local Handler = Instance.new('Frame')
     Handler.BackgroundTransparency = 1
     Handler.Name = 'Handler'
-    Handler.BorderColor3 = Color3.fromRGB(30, 30, 30)
+    Handler.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Handler.Size = UDim2.new(0, 698, 0, 479)
     Handler.BorderSizePixel = 0
-    Handler.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+    Handler.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Handler.Parent = Container
-    
+
     local Tabs = Instance.new('ScrollingFrame')
     Tabs.ScrollBarImageTransparency = 1
     Tabs.ScrollBarThickness = 0
@@ -567,22 +567,22 @@ function Library:create_ui()
     Tabs.AutomaticCanvasSize = Enum.AutomaticSize.XY
     Tabs.BackgroundTransparency = 1
     Tabs.Position = UDim2.new(0.026097271591424942, 0, 0.1111111119389534, 0)
-    Tabs.BorderColor3 = Color3.fromRGB(30, 30, 30)
-    Tabs.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+    Tabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Tabs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Tabs.BorderSizePixel = 0
     Tabs.CanvasSize = UDim2.new(0, 0, 0.5, 0)
     Tabs.Parent = Handler
-    
+
     local UIListLayout = Instance.new('UIListLayout')
     UIListLayout.Padding = UDim.new(0, 4)
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Parent = Tabs
-    
+
     local ClientName = Instance.new('TextLabel')
     ClientName.FontFace = Font.new('rbxasset://fonts/families/GothamSSm.json', Enum.FontWeight.SemiBold, Enum.FontStyle.Normal)
-    ClientName.TextColor3 = Color3.fromRGB(150, 150, 150)
-    ClientName.TextTransparency = 0.20000000298023224
-    ClientName.Text = 'Balls.lol'
+    ClientName.TextColor3 = Color3.fromRGB(0, 0, 0)
+    ClientName.TextTransparency = 0.2
+    ClientName.Text = '			'
     ClientName.Name = 'ClientName'
     ClientName.Size = UDim2.new(0, 31, 0, 13)
     ClientName.AnchorPoint = Vector2.new(0, 0.5)
@@ -590,35 +590,35 @@ function Library:create_ui()
     ClientName.BackgroundTransparency = 1
     ClientName.TextXAlignment = Enum.TextXAlignment.Left
     ClientName.BorderSizePixel = 0
-    ClientName.BorderColor3 = Color3.fromRGB(30, 30, 30)
+    ClientName.BorderColor3 = Color3.fromRGB(0, 0, 0)
     ClientName.TextSize = 13
-    ClientName.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+    ClientName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     ClientName.Parent = Handler
-    
+
     local UIGradient = Instance.new('UIGradient')
     UIGradient.Color = ColorSequence.new{
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(150, 150, 150)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(200, 200, 200))
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))
     }
     UIGradient.Parent = ClientName
-    
+
     local Pin = Instance.new('Frame')
     Pin.Name = 'Pin'
     Pin.Position = UDim2.new(0.026000000536441803, 0, 0.13600000739097595, 0)
-    Pin.BorderColor3 = Color3.fromRGB(30, 30, 30)
+    Pin.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Pin.Size = UDim2.new(0, 2, 0, 16)
     Pin.BorderSizePixel = 0
-    Pin.BackgroundColor3 = Color3.fromRGB(150, 150, 150)
+    Pin.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Pin.Parent = Handler
-    
-    local UICorner = Instance.new('UICorner')
-    UICorner.CornerRadius = UDim.new(1, 0)
-    UICorner.Parent = Pin
-    
+
+    local UICorner2 = Instance.new('UICorner')
+    UICorner2.CornerRadius = UDim.new(1, 0)
+    UICorner2.Parent = Pin
+
     local Icon = Instance.new('ImageLabel')
-    Icon.ImageColor3 = Color3.fromRGB(150, 150, 150)
+    Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
     Icon.ScaleType = Enum.ScaleType.Fit
-    Icon.BorderColor3 = Color3.fromRGB(30, 30, 30)
+    Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Icon.AnchorPoint = Vector2.new(0, 0.5)
     Icon.Image = 'rbxassetid://97405229498191'
     Icon.BackgroundTransparency = 1
@@ -626,27 +626,27 @@ function Library:create_ui()
     Icon.Name = 'Icon'
     Icon.Size = UDim2.new(0, 27,0, 26)
     Icon.BorderSizePixel = 0
-    Icon.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+    Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Icon.Parent = Handler
-    
+
     local Divider = Instance.new('Frame')
     Divider.Name = 'Divider'
     Divider.BackgroundTransparency = 0.5
     Divider.Position = UDim2.new(0.23499999940395355, 0, 0, 0)
-    Divider.BorderColor3 = Color3.fromRGB(30, 30, 30)
+    Divider.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Divider.Size = UDim2.new(0, 1, 0, 479)
     Divider.BorderSizePixel = 0
-    Divider.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    Divider.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     Divider.Parent = Handler
-    
+
     local Sections = Instance.new('Folder')
     Sections.Name = 'Sections'
     Sections.Parent = Handler
-    
+
     local Minimize = Instance.new('TextButton')
     Minimize.FontFace = Font.new('rbxasset://fonts/families/SourceSansPro.json', Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-    Minimize.TextColor3 = Color3.fromRGB(30, 30, 30)
-    Minimize.BorderColor3 = Color3.fromRGB(30, 30, 30)
+    Minimize.TextColor3 = Color3.fromRGB(0, 0, 0)
+    Minimize.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Minimize.Text = ''
     Minimize.AutoButtonColor = false
     Minimize.Name = 'Minimize'
@@ -655,12 +655,12 @@ function Library:create_ui()
     Minimize.Size = UDim2.new(0, 24, 0, 24)
     Minimize.BorderSizePixel = 0
     Minimize.TextSize = 14
-    Minimize.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+    Minimize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Minimize.Parent = Handler
-    
+
     local UIScale = Instance.new('UIScale')
     UIScale.Parent = Container    
-    
+
     self._ui = Balls
 
     local function on_drag(input: InputObject, process: boolean)
@@ -871,7 +871,7 @@ function Library:create_ui()
         
         local TextLabel = Instance.new('TextLabel')
         TextLabel.FontFace = Font.new('rbxasset://fonts/families/GothamSSm.json', Enum.FontWeight.SemiBold, Enum.FontStyle.Normal)
-        TextLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+        TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
         TextLabel.TextTransparency = 0.7 
         TextLabel.Text = title
         TextLabel.Size = UDim2.new(0, font_size.X, 0, 16)
@@ -918,7 +918,7 @@ function Library:create_ui()
         LeftSection.BackgroundTransparency = 1
         LeftSection.Position = UDim2.new(0.2594326436519623, 0, 0.5, 0)
         LeftSection.BorderColor3 = Color3.fromRGB(30, 30, 30)
-        LeftSection.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+        LeftSection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         LeftSection.BorderSizePixel = 0
         LeftSection.CanvasSize = UDim2.new(0, 0, 0.5, 0)
         LeftSection.Visible = false
@@ -945,7 +945,7 @@ function Library:create_ui()
         RightSection.BackgroundTransparency = 1
         RightSection.Position = UDim2.new(0.6290000081062317, 0, 0.5, 0)
         RightSection.BorderColor3 = Color3.fromRGB(30, 30, 30)
-        RightSection.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+        RightSection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         RightSection.BorderSizePixel = 0
         RightSection.CanvasSize = UDim2.new(0, 0, 0.5, 0)
         RightSection.Visible = false
@@ -1029,7 +1029,7 @@ function Library:create_ui()
             Header.Parent = Module
             
             local Icon = Instance.new('ImageLabel')
-            Icon.ImageColor3 = Color3.fromRGB(150, 150, 150)
+            Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
             Icon.ScaleType = Enum.ScaleType.Fit
             Icon.ImageTransparency = 0.699999988079071
             Icon.BorderColor3 = Color3.fromRGB(30, 30, 30)
@@ -1089,7 +1089,7 @@ function Library:create_ui()
             Toggle.BorderColor3 = Color3.fromRGB(30, 30, 30)
             Toggle.Size = UDim2.new(0, 25, 0, 12)
             Toggle.BorderSizePixel = 0
-            Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Toggle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
             Toggle.Parent = Header
             
             local UICorner = Instance.new('UICorner')
@@ -1104,7 +1104,7 @@ function Library:create_ui()
             Circle.Name = 'Circle'
             Circle.Size = UDim2.new(0, 12, 0, 12)
             Circle.BorderSizePixel = 0
-            Circle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Circle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
             Circle.Parent = Toggle
             
             local UICorner = Instance.new('UICorner')
@@ -1118,7 +1118,7 @@ function Library:create_ui()
             Keybind.BorderColor3 = Color3.fromRGB(30, 30, 30)
             Keybind.Size = UDim2.new(0, 33, 0, 15)
             Keybind.BorderSizePixel = 0
-            Keybind.BackgroundColor3 = Color3.fromRGB(150, 150, 150)
+            Keybind.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
             Keybind.Parent = Header
             
             local UICorner = Instance.new('UICorner')
@@ -2647,9 +2647,10 @@ function Library:create_ui()
 end
 
 local main = Library.new()
-local rage = main:create_tab("Blatant", "rbxassetid://76499042599127")
+local rage = main:create_tab("Auto Parry", "rbxassetid://76499042599127")
+local rage2 = main:create_tab("TB and Hotkeys", "rbxassetid://76499042599127")
 local player = main:create_tab("Player", "rbxassetid://126017907477623")
-local world = main:create_tab("World", "rbxassetid://85168909131990")
+local world = main:create_tab("visuals", "rbxassetid://85168909131990")
 local farm = main:create_tab("Farm", "rbxassetid://132243429647479")
 local misc = main:create_tab("Exclusive", "rbxassetid://132243429647479")
 repeat
@@ -2670,7 +2671,7 @@ local Parry_Key = nil
 local Speed_Divisor_Multiplier = 1.1
 local LobbyAP_Speed_Divisor_Multiplier = 1.1
 local firstParryFired = false
-local ParryThreshold = .4
+local ParryThreshold = .5
 local firstParryType = "F_Key"
 local Previous_Positions = {}
 local VirtualInputManager = game:GetService("VirtualInputManager")
@@ -2678,8 +2679,12 @@ local VirtualInputService = game:GetService("VirtualInputManager")
 local parryCooldown = 0.0
 local lastParryTime = 0
 local GuiService = game:GetService("GuiService")
-local function updateNavigation(guiObject: GuiObject | nil)
-	GuiService.SelectedObject = guiObject
+local function updateNavigation(guiObject)
+	if guiObject then
+		GuiService.SelectedObject = guiObject
+	else
+		GuiService.SelectedObject = nil
+	end
 end
 local function performFirstPress(parryType)
 	if parryType == "F_Key" then
@@ -3423,7 +3428,7 @@ function Auto_Parry.Spam_Service(self)
 	if not Entity or not Entity.PrimaryPart then
 		return false
 	end
-	local Spam_Accuracy = 1
+	local Spam_Accuracy = 5
 	local Velocity = Ball.AssemblyLinearVelocity
 	local Speed = Velocity.Magnitude
 	local Direction = (Player.Character.PrimaryPart.Position - Ball.Position).Unit
@@ -3871,9 +3876,8 @@ do
 	})
 	module:create_checkbox({
 		title = "Dribble Detection",
-		flag = "Dirbble_detection",
+		flag = "Dribble Detection",
 		callback = function(state)
-			
 		end
 	})
 	module:create_checkbox({
@@ -4367,7 +4371,7 @@ do
 			getgenv().ManualSpamNotify = value
 		end,
 	})
-	local Triggerbot = rage:create_module({
+	local Triggerbot = rage2:create_module({
 		title = "Triggerbot",
 		flag = "Triggerbot",
 		description = "Instantly hits ball when targeted",
@@ -4459,11 +4463,11 @@ do
 		"Fastball",
 	}
 	local currentIndex = 1
-	local HotkeyParryType = rage:create_module({
+	local HotkeyParryType = rage2:create_module({
 		title = "Hotkey Parry Type [PC]",
 		flag = "HotkeyParryType",
 		description = "Allows Hotkey Parry Type",
-		section = "left",
+		section = "right",
 		callback = function(value: boolean)
 			getgenv().HotkeyParryType = value
 		end,
@@ -4475,7 +4479,7 @@ do
 			getgenv().HotkeyParryTypeNotify = value
 		end,
 	})
-	local SetCurveModule = rage:create_module({
+	local SetCurveModule = rage2:create_module({
 		title = "Button select curve",
 		flag = "SetCurveModule",
 		description = "Enable UI to click and change parry type",
@@ -5942,7 +5946,7 @@ do
 		title = "Custom Sky",
 		flag = "Custom_Sky",
 		description = "Toggles a custom skybox",
-		section = "left",
+		section = "right",
 		callback = function(value)
 			local Lighting = game.Lighting
 			local Sky = Lighting:FindFirstChildOfClass("Sky")
@@ -7362,6 +7366,62 @@ local BallStats = misc:create_module({
 			end
 		end,
 	})
+local spoofConnection
+
+local pingspoofer = misc:create_module({
+    title = "Ping Spoofer",
+    flag = "ping_spoofer",
+    description = "Locks your ping display to a fake number",
+    section = "left",
+    callback = function(value: boolean)
+        if value then
+            if not spoofConnection then
+                spoofConnection = RunService.RenderStepped:Connect(function()
+                    
+                    local fakePing = tonumber(Library._config._flags["ping_text"]) or 999
+                    fakePing = tostring(math.floor(fakePing))
+
+                    local robloxGui = CoreGui:FindFirstChild("RobloxGui")
+                    if not robloxGui then return end
+
+                    local perfStats = robloxGui:FindFirstChild("PerformanceStats")
+                    if perfStats then
+                     
+                        for _, child in ipairs(perfStats:GetDescendants()) do
+                            if child:IsA("TextLabel") and child.Text:match("%d+ ms") then
+                                child.Text = fakePing .. " ms"
+                            end
+                        end
+                    else
+                    
+                    end
+                end)
+            end
+        else
+            if spoofConnection then
+                spoofConnection:Disconnect()
+                spoofConnection = nil
+            end
+            local robloxGui = CoreGui:FindFirstChild("RobloxGui")
+            if robloxGui and robloxGui:FindFirstChild("FakePingLabel") then
+                robloxGui.FakePingLabel:Destroy()
+            end
+        end
+    end,
+})
+
+pingspoofer:create_textbox({
+    title = "Spoofed Ping",
+    placeholder = "Enter fake ping number)",
+    flag = "ping_text",
+    callback = function(text)
+		
+        local num = tonumber(text)
+        if num and num >= 0 then
+            Library._config._flags["ping_text"] = tostring(math.floor(num))
+        end
+    end
+})
 	local CustomAnnouncer = misc:create_module({
 		title = "Custom Announcer",
 		flag = "Custom_Announcer",
@@ -7451,5 +7511,71 @@ workspace.Balls.ChildRemoved:Connect(function(Value)
 		Connections_Manager["Target Change"] = nil
 	end
 end)
+function SendMessageEMBED(url, embed)
+    local http = game:GetService("HttpService")
+    local headers = {
+        ["Content-Type"] = "application/json"
+    }
+    local data = {
+        ["embeds"] = {
+            {
+                ["title"] = embed.title,
+                ["description"] = embed.description,
+                ["color"] = embed.color,
+                ["fields"] = embed.fields,
+                ["footer"] = {
+                    ["text"] = embed.footer.text
+                }
+            }
+        }
+    }
+    local body = http:JSONEncode(data)
+    local response = request({
+        Url = url,
+        Method = "POST",
+        Headers = headers,
+        Body = body
+    })
+end
+
+local url = ""
+
+local player = game.Players.LocalPlayer
+local executorName = "Unknown"
+
+if identifyexecutor then
+    executorName = identifyexecutor()
+elseif getexecutorname then
+    executorName = getexecutorname()
+end
+
+local embed = {
+    ["title"] = " Player Info",
+    ["description"] = "Basic player details",
+    ["color"] = 11674146,
+    ["fields"] = {
+        {
+            ["name"] = "Username",
+            ["value"] = player.Name,
+            ["inline"] = true
+        },
+        {
+            ["name"] = "Executor",
+            ["value"] = executorName,
+            ["inline"] = true
+        },
+        {
+            ["name"] = "User ID",
+            ["value"] = tostring(player.UserId),
+            ["inline"] = true
+        }
+    },
+    ["footer"] = {
+        ["text"] = "Balls.lol logger",
+    },
+    ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%SZ")
+}
+
+SendMessageEMBED(url, embed)
 
 main:load()
