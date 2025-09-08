@@ -525,39 +525,39 @@ function Library:create_ui()
     Balls.Name = 'Balls'
     Balls.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     Balls.Parent = CoreGui
-
+    
     local Container = Instance.new('Frame')
     Container.ClipsDescendants = true
-    Container.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Container.BorderColor3 = Color3.fromRGB(30, 30, 30)
     Container.AnchorPoint = Vector2.new(0.5, 0.5)
     Container.Name = 'Container'
     Container.BackgroundTransparency = 0.4
-    Container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Container.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Container.Position = UDim2.new(0.5, 0, 0.5, 0)
     Container.Size = UDim2.new(0, 0, 0, 0)
     Container.Active = true
     Container.BorderSizePixel = 0
     Container.Parent = Balls
-
+    
     local UICorner = Instance.new('UICorner')
     UICorner.CornerRadius = UDim.new(0, 10)
     UICorner.Parent = Container
-
+    
     local UIStroke = Instance.new('UIStroke')
-    UIStroke.Color = Color3.fromRGB(0, 0, 0)
+    UIStroke.Color = Color3.fromRGB(30, 30, 30)
     UIStroke.Transparency = 0.5
     UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     UIStroke.Parent = Container
-
+    
     local Handler = Instance.new('Frame')
     Handler.BackgroundTransparency = 1
     Handler.Name = 'Handler'
-    Handler.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Handler.BorderColor3 = Color3.fromRGB(30, 30, 30)
     Handler.Size = UDim2.new(0, 698, 0, 479)
     Handler.BorderSizePixel = 0
-    Handler.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Handler.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
     Handler.Parent = Container
-
+    
     local Tabs = Instance.new('ScrollingFrame')
     Tabs.ScrollBarImageTransparency = 1
     Tabs.ScrollBarThickness = 0
@@ -567,22 +567,22 @@ function Library:create_ui()
     Tabs.AutomaticCanvasSize = Enum.AutomaticSize.XY
     Tabs.BackgroundTransparency = 1
     Tabs.Position = UDim2.new(0.026097271591424942, 0, 0.1111111119389534, 0)
-    Tabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Tabs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Tabs.BorderColor3 = Color3.fromRGB(30, 30, 30)
+    Tabs.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
     Tabs.BorderSizePixel = 0
     Tabs.CanvasSize = UDim2.new(0, 0, 0.5, 0)
     Tabs.Parent = Handler
-
+    
     local UIListLayout = Instance.new('UIListLayout')
     UIListLayout.Padding = UDim.new(0, 4)
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Parent = Tabs
-
+    
     local ClientName = Instance.new('TextLabel')
     ClientName.FontFace = Font.new('rbxasset://fonts/families/GothamSSm.json', Enum.FontWeight.SemiBold, Enum.FontStyle.Normal)
-    ClientName.TextColor3 = Color3.fromRGB(0, 0, 0)
-    ClientName.TextTransparency = 0.2
-    ClientName.Text = '			'
+    ClientName.TextColor3 = Color3.fromRGB(150, 150, 150)
+    ClientName.TextTransparency = 0.20000000298023224
+    ClientName.Text = 'Balls.lol'
     ClientName.Name = 'ClientName'
     ClientName.Size = UDim2.new(0, 31, 0, 13)
     ClientName.AnchorPoint = Vector2.new(0, 0.5)
@@ -590,35 +590,35 @@ function Library:create_ui()
     ClientName.BackgroundTransparency = 1
     ClientName.TextXAlignment = Enum.TextXAlignment.Left
     ClientName.BorderSizePixel = 0
-    ClientName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    ClientName.BorderColor3 = Color3.fromRGB(30, 30, 30)
     ClientName.TextSize = 13
-    ClientName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ClientName.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
     ClientName.Parent = Handler
-
+    
     local UIGradient = Instance.new('UIGradient')
     UIGradient.Color = ColorSequence.new{
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 255, 255))
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(150, 150, 150)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(200, 200, 200))
     }
     UIGradient.Parent = ClientName
-
+    
     local Pin = Instance.new('Frame')
     Pin.Name = 'Pin'
     Pin.Position = UDim2.new(0.026000000536441803, 0, 0.13600000739097595, 0)
-    Pin.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Pin.BorderColor3 = Color3.fromRGB(30, 30, 30)
     Pin.Size = UDim2.new(0, 2, 0, 16)
     Pin.BorderSizePixel = 0
-    Pin.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Pin.BackgroundColor3 = Color3.fromRGB(150, 150, 150)
     Pin.Parent = Handler
-
-    local UICorner2 = Instance.new('UICorner')
-    UICorner2.CornerRadius = UDim.new(1, 0)
-    UICorner2.Parent = Pin
-
+    
+    local UICorner = Instance.new('UICorner')
+    UICorner.CornerRadius = UDim.new(1, 0)
+    UICorner.Parent = Pin
+    
     local Icon = Instance.new('ImageLabel')
-    Icon.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
     Icon.ScaleType = Enum.ScaleType.Fit
-    Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Icon.BorderColor3 = Color3.fromRGB(30, 30, 30)
     Icon.AnchorPoint = Vector2.new(0, 0.5)
     Icon.Image = 'rbxassetid://97405229498191'
     Icon.BackgroundTransparency = 1
@@ -626,27 +626,27 @@ function Library:create_ui()
     Icon.Name = 'Icon'
     Icon.Size = UDim2.new(0, 27,0, 26)
     Icon.BorderSizePixel = 0
-    Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Icon.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
     Icon.Parent = Handler
-
+    
     local Divider = Instance.new('Frame')
     Divider.Name = 'Divider'
     Divider.BackgroundTransparency = 0.5
     Divider.Position = UDim2.new(0.23499999940395355, 0, 0, 0)
-    Divider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Divider.BorderColor3 = Color3.fromRGB(30, 30, 30)
     Divider.Size = UDim2.new(0, 1, 0, 479)
     Divider.BorderSizePixel = 0
-    Divider.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Divider.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
     Divider.Parent = Handler
-
+    
     local Sections = Instance.new('Folder')
     Sections.Name = 'Sections'
     Sections.Parent = Handler
-
+    
     local Minimize = Instance.new('TextButton')
     Minimize.FontFace = Font.new('rbxasset://fonts/families/SourceSansPro.json', Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-    Minimize.TextColor3 = Color3.fromRGB(0, 0, 0)
-    Minimize.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Minimize.TextColor3 = Color3.fromRGB(30, 30, 30)
+    Minimize.BorderColor3 = Color3.fromRGB(30, 30, 30)
     Minimize.Text = ''
     Minimize.AutoButtonColor = false
     Minimize.Name = 'Minimize'
@@ -655,12 +655,12 @@ function Library:create_ui()
     Minimize.Size = UDim2.new(0, 24, 0, 24)
     Minimize.BorderSizePixel = 0
     Minimize.TextSize = 14
-    Minimize.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Minimize.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
     Minimize.Parent = Handler
-
+    
     local UIScale = Instance.new('UIScale')
     UIScale.Parent = Container    
-
+    
     self._ui = Balls
 
     local function on_drag(input: InputObject, process: boolean)
@@ -871,7 +871,7 @@ function Library:create_ui()
         
         local TextLabel = Instance.new('TextLabel')
         TextLabel.FontFace = Font.new('rbxasset://fonts/families/GothamSSm.json', Enum.FontWeight.SemiBold, Enum.FontStyle.Normal)
-        TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        TextLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
         TextLabel.TextTransparency = 0.7 
         TextLabel.Text = title
         TextLabel.Size = UDim2.new(0, font_size.X, 0, 16)
@@ -918,7 +918,7 @@ function Library:create_ui()
         LeftSection.BackgroundTransparency = 1
         LeftSection.Position = UDim2.new(0.2594326436519623, 0, 0.5, 0)
         LeftSection.BorderColor3 = Color3.fromRGB(30, 30, 30)
-        LeftSection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        LeftSection.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
         LeftSection.BorderSizePixel = 0
         LeftSection.CanvasSize = UDim2.new(0, 0, 0.5, 0)
         LeftSection.Visible = false
@@ -945,7 +945,7 @@ function Library:create_ui()
         RightSection.BackgroundTransparency = 1
         RightSection.Position = UDim2.new(0.6290000081062317, 0, 0.5, 0)
         RightSection.BorderColor3 = Color3.fromRGB(30, 30, 30)
-        RightSection.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        RightSection.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
         RightSection.BorderSizePixel = 0
         RightSection.CanvasSize = UDim2.new(0, 0, 0.5, 0)
         RightSection.Visible = false
@@ -1029,7 +1029,7 @@ function Library:create_ui()
             Header.Parent = Module
             
             local Icon = Instance.new('ImageLabel')
-            Icon.ImageColor3 = Color3.fromRGB(0, 0, 0)
+            Icon.ImageColor3 = Color3.fromRGB(150, 150, 150)
             Icon.ScaleType = Enum.ScaleType.Fit
             Icon.ImageTransparency = 0.699999988079071
             Icon.BorderColor3 = Color3.fromRGB(30, 30, 30)
@@ -1089,7 +1089,7 @@ function Library:create_ui()
             Toggle.BorderColor3 = Color3.fromRGB(30, 30, 30)
             Toggle.Size = UDim2.new(0, 25, 0, 12)
             Toggle.BorderSizePixel = 0
-            Toggle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            Toggle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
             Toggle.Parent = Header
             
             local UICorner = Instance.new('UICorner')
@@ -1104,7 +1104,7 @@ function Library:create_ui()
             Circle.Name = 'Circle'
             Circle.Size = UDim2.new(0, 12, 0, 12)
             Circle.BorderSizePixel = 0
-            Circle.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            Circle.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
             Circle.Parent = Toggle
             
             local UICorner = Instance.new('UICorner')
@@ -1118,7 +1118,7 @@ function Library:create_ui()
             Keybind.BorderColor3 = Color3.fromRGB(30, 30, 30)
             Keybind.Size = UDim2.new(0, 33, 0, 15)
             Keybind.BorderSizePixel = 0
-            Keybind.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+            Keybind.BackgroundColor3 = Color3.fromRGB(150, 150, 150)
             Keybind.Parent = Header
             
             local UICorner = Instance.new('UICorner')
@@ -2649,10 +2649,10 @@ end
 local main = Library.new()
 local rage = main:create_tab("Auto Parry", "rbxassetid://76499042599127")
 local rage2 = main:create_tab("TB and Hotkeys", "rbxassetid://76499042599127")
+local detec = main:create_tab("Detections", "rbxassetid://132243429647479")
 local player = main:create_tab("Player", "rbxassetid://126017907477623")
 local world = main:create_tab("visuals", "rbxassetid://85168909131990")
-local farm = main:create_tab("Farm", "rbxassetid://132243429647479")
-local misc = main:create_tab("Exclusive", "rbxassetid://132243429647479")
+local misc = main:create_tab("Exclusive", "rbxassetid://5639840603")
 repeat
 	task.wait()
 until game:IsLoaded()
@@ -2671,7 +2671,7 @@ local Parry_Key = nil
 local Speed_Divisor_Multiplier = 1.1
 local LobbyAP_Speed_Divisor_Multiplier = 1.1
 local firstParryFired = false
-local ParryThreshold = .5
+local ParryThreshold = 1
 local firstParryType = "F_Key"
 local Previous_Positions = {}
 local VirtualInputManager = game:GetService("VirtualInputManager")
@@ -3866,53 +3866,10 @@ do
 		end,
 	})
 	module:create_checkbox({
-		title = "Infinity Detection",
-		flag = "Infinity_Detection",
-		callback = function(value: boolean)
-			if value then
-				getgenv().InfinityDetection = value
-			end
-		end,
-	})
-	module:create_checkbox({
-		title = "Dribble Detection",
-		flag = "Dribble Detection",
-		callback = function(state)
-		end
-	})
-	module:create_checkbox({
-		title = "Death Slash Detection",
-		flag = "DeathSlash_Detection",
-		callback = function(value: boolean)
-			getgenv().DeathSlashDetection = value
-		end,
-	})
-	module:create_checkbox({
-		title = "Time Hole Detection",
-		flag = "TimeHole_Detection",
-		callback = function(value: boolean)
-			getgenv().TimeHoleDetection = value
-		end,
-	})
-	module:create_checkbox({
-		title = "Slash Of Fury Detection",
-		flag = "SlashOfFuryDetection",
-		callback = function(value: boolean)
-			getgenv().SlashOfFuryDetection = value
-		end,
-	})
-	module:create_checkbox({
 		title = "Anti Phantom",
 		flag = "Anti_Phantom",
 		callback = function(value: boolean)
 			getgenv().PhantomV2Detection = value
-		end,
-	})
-	module:create_checkbox({
-		title = "Cooldown Protection",
-		flag = "CooldownProtection",
-		callback = function(value: boolean)
-			getgenv().CooldownProtection = value
 		end,
 	})
 	module:create_checkbox({
@@ -4121,6 +4078,54 @@ do
 			getgenv().AutoSpamNotify = value
 		end,
 	})
+	local infinityDetectionModule = detec:create_module({
+    title = "Infinity Detection",
+    flag = "InfinityDetectionModule",
+    description = "Toggle Infinity Ball detection",
+    section = "left",
+    callback = function(value)
+        getgenv().InfinityDetection = value
+    end,
+})
+
+local dribbleDetectionModule = detec:create_module({
+    title = "Dribble Detection",
+    flag = "DribbleDetectionModule",
+    description = "Toggle Dribble Ball detection",
+    section = "right",
+    callback = function(value)
+        getgenv().DribbleDetection = value
+    end,
+})
+
+local deathSlashDetectionModule = detec:create_module({
+    title = "Death Slash Detection",
+    flag = "DeathSlashDetectionModule",
+    description = "Toggle Death Slash detection",
+    section = "left",
+    callback = function(state)  
+    end
+})
+
+local timeHoleDetectionModule = detec:create_module({
+    title = "Time Hole Detection",
+    flag = "TimeHoleDetectionModule",
+    description = "Toggle Time Hole detection",
+    section = "right",
+    callback = function(value)
+        getgenv().TimeHoleDetection = value
+    end,
+})
+
+local slashOfFuryDetectionModule = detec:create_module({
+    title = "Slash Of Fury Detection",
+    flag = "SlashOfFuryDetectionModule",
+    description = "Toggle Slash Of Fury detection",
+    section = "left",
+    callback = function(value)
+        getgenv().SlashOfFuryDetection = value
+    end,
+})
 	local ManualSpam = rage:create_module({
 		title = "Manual Spam Parry",
 		flag = "Manual_Spam_Parry",
@@ -6096,103 +6101,6 @@ do
 			end
 		end,
 	})
-	local autoDuelsRequeueEnabled = false
-	local AutoDuelsRequeue = farm:create_module({
-		title = "Auto Duels Requeue",
-		flag = "AutoDuelsRequeue",
-		description = "Automatically requeues duels",
-		section = "left",
-		callback = function(value)
-			autoDuelsRequeueEnabled = value
-			if autoDuelsRequeueEnabled then
-				task.spawn(function()
-					while autoDuelsRequeueEnabled do
-						game:GetService("ReplicatedStorage")
-							:WaitForChild("Packages")
-							:WaitForChild("_Index")
-							:WaitForChild("sleitnick_net@0.1.0")
-							:WaitForChild("net")
-							:WaitForChild("RE/PlayerWantsRematch")
-							:FireServer()
-						task.wait(5)
-					end
-				end)
-			end
-		end,
-	})
-	local validRankedPlaceIds = {
-		13772394625,
-		14915220621,
-	}
-	local selectedQueue = "FFA"
-	local autoRequeueEnabled = false
-	local AutoRankedRequeue = farm:create_module({
-		title = "Auto Ranked Requeue",
-		flag = "AutoRankedRequeue",
-		description = "Automatically requeues Ranked",
-		section = "right",
-		callback = function(value)
-			autoRequeueEnabled = value
-			if autoRequeueEnabled then
-				if not table.find(validRankedPlaceIds, game.PlaceId) then
-					autoRequeueEnabled = false
-					return
-				end
-				task.spawn(function()
-					while autoRequeueEnabled do
-						game:GetService("ReplicatedStorage")
-							:WaitForChild("Remotes")
-							:WaitForChild("JoinQueue")
-							:FireServer("Ranked", selectedQueue, "Normal")
-						task.wait(5)
-					end
-				end)
-			end
-		end,
-	})
-	AutoRankedRequeue:create_dropdown({
-		title = "Select Queue Type",
-		flag = "QueueType",
-		options = {
-			"FFA",
-			"Duo",
-		},
-		multi_dropdown = false,
-		maximum_options = 2,
-		callback = function(selectedOption)
-			selectedQueue = selectedOption
-		end,
-	})
-	local autoLTMRequeueEnabled = false
-	local validLTMPlaceId = 13772394625
-	local AutoLTMRequeue = farm:create_module({
-		title = "Auto LTM Requeue",
-		flag = "AutoLTMRequeue",
-		description = "Automatically requeues LTM",
-		section = "left",
-		callback = function(value)
-			autoLTMRequeueEnabled = value
-			if autoLTMRequeueEnabled then
-				if game.PlaceId ~= validLTMPlaceId then
-					autoLTMRequeueEnabled = false
-					return
-				end
-				task.spawn(function()
-					while autoLTMRequeueEnabled do
-						game:GetService("ReplicatedStorage")
-							:WaitForChild("Packages")
-							:WaitForChild("_Index")
-							:WaitForChild("sleitnick_net@0.1.0")
-							:WaitForChild("net")
-							:WaitForChild("RF/JoinTournamentEventQueue")
-							:InvokeServer({})
-						task.wait(5)
-					end
-				end)
-			end
-		end,
-	})
-
     local immortality = misc:create_module({
     title = "Semi Immortality !BETA!",
     flag = "Immortal",
@@ -7294,39 +7202,6 @@ local BallStats = misc:create_module({
 			getgenv().VisualiserHue = value
 		end,
 	})
-	local AutoClaimRewards = farm:create_module({
-		title = "Auto Claim Rewards",
-		flag = "AutoClaimRewards",
-		description = "Automatically claims rewards.",
-		section = "left",
-		callback = function(value: boolean)
-			getgenv().AutoClaimRewards = value
-			if value then
-				local rs = game:GetService("ReplicatedStorage")
-				local net = rs:WaitForChild("Packages")
-					:WaitForChild("_Index")
-					:WaitForChild("sleitnick_net@0.1.0")
-					:WaitForChild("net")
-				task.spawn(function()
-					net["RF/RedeemQuestsType"]:InvokeServer("Battlepass", "Weekly")
-					net["RF/RedeemQuestsType"]:InvokeServer("Battlepass", "Daily")
-					net["RF/ClaimAllDailyMissions"]:InvokeServer("Daily")
-					net["RF/ClaimAllDailyMissions"]:InvokeServer("Weekly")
-					net["RF/ClaimAllClanBPQuests"]:InvokeServer()
-					local joinTimestamp = tonumber(plr:GetAttribute("JoinedTimestamp")) + 10
-					for i = 1, 6 do
-						while workspace:GetServerTimeNow() < joinTimestamp + (i * 300) + 1 do
-							task.wait(1)
-							if not getgenv().AutoClaimRewards then
-								return
-							end
-						end
-						net["RF/ClaimPlaytimeReward"]:InvokeServer(i)
-					end
-				end)
-			end
-		end,
-	})
 	local DisableQuantumEffects = world:create_module({
 		title = "Disable Quantum Arena Effects",
 		flag = "NoQuantumEffects",
@@ -7579,3 +7454,68 @@ local embed = {
 SendMessageEMBED(url, embed)
 
 main:load()
+
+local CoreGui = game:GetService("CoreGui")
+local BallsGui = CoreGui:WaitForChild("Balls", 60)
+
+if not BallsGui then
+    warn("Could not find the 'Balls' GUI. The original script may have failed to load.")
+    return
+end
+
+local Container = BallsGui:WaitForChild("Container", 30)
+
+if not Container then
+    warn("Could not find the 'Container' frame. The original script may have failed to load.")
+    return
+end
+
+local THEME = {
+    BACKGROUND = Color3.fromRGB(0, 0, 0),      -- Pure black background
+    TEXT = Color3.fromRGB(255, 255, 255),      -- Pure white text
+    ACCENT = Color3.fromRGB(255, 255, 255),          -- Black accent (for gradients/strokes)
+    STROKE = Color3.fromRGB(255, 255, 255)           -- Black stroke
+}
+
+local function applyTheme(object)
+    if object:IsA("TextLabel") or object:IsA("TextButton") or object:IsA("TextBox") then
+        object.TextColor3 = THEME.TEXT
+        object.TextTransparency = 0
+    end
+
+    if object:IsA("Frame") or object:IsA("ScrollingFrame") then
+        if object.BackgroundTransparency < 1 then
+            object.BackgroundColor3 = THEME.BACKGROUND
+        end
+    end
+
+    if object:IsA("UIStroke") then
+        object.Color = THEME.STROKE
+        object.Thickness = 1
+    end
+
+    if object:IsA("UIGradient") then
+        local colorKeys = {}
+        for i, key in ipairs(object.Color.Keypoints) do
+            table.insert(colorKeys, ColorSequenceKeypoint.new(key.Time, THEME.BACKGROUND))
+        end
+        object.Color = ColorSequence.new(colorKeys)
+    end
+
+    if object:IsA("ImageLabel") or object:IsA("ImageButton") then
+        object.ImageColor3 = THEME.TEXT
+    end
+
+    if object.Name == "ClientName" then
+        object.Text = "     "
+        object.TextColor3 = THEME.TEXT
+    end
+end
+
+for _, descendant in ipairs(Container:GetDescendants()) do
+    pcall(applyTheme, descendant)
+end
+
+Container.DescendantAdded:Connect(function(descendant)
+    pcall(applyTheme, descendant)
+end)
