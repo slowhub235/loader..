@@ -1,0 +1,57 @@
+heartbeatConnection = RunService.Heartbeat:Connect(function()
+            if not _G.Config.AutoCast then
+                heartbeatConnection:Disconnect()
+                heartbeatConnection = nil
+                return
+            end
+
+            local Rod = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild(RodName)
+            if not Rod then return end
+
+            local args = {98, 1}
+            LocalPlayer.Character:WaitForChild(RodName)
+                :WaitForChild("events")
+                :WaitForChild("castAsync"):InvokeServer(unpack(args))
+
+            local Bobber = Rod:FindFirstChild("bobber")
+            if not Bobber then return end
+
+            local humanoidRootPart = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if not humanoidRootPart then return end
+
+            local dropDone = false
+            local carrotSecretFolder = workspace:FindFirstChild("world")
+                and workspace.world:FindFirstChild("map")
+                and workspace.world.map:FindFirstChild("Carrot Secret")
+
+            if carrotSecretFolder then
+                local closestMesh
+                local closestDist = math.huge
+                for _, model in ipairs(carrotSecretFolder:GetChildren()) do
+                    local mesh = model:FindFirstChild("Meshes/CarrotPool_Cube.001 (1)")
+                    if mesh and mesh:IsA("MeshPart") then
+                        local dist = (humanoidRootPart.Position - mesh.Position).Magnitude
+                        if dist < closestDist then
+                            closestDist = dist
+                            closestMesh = mesh
+                        end
+                    end
+                end
+
+                if closestMesh and closestDist < 50 then
+                    Bobber:PivotTo(CFrame.new(closestMesh.Position))
+                    dropDone = true
+                end
+            end
+
+            if not dropDone then
+                local Params = RaycastParams.new()
+                Params.FilterType = Enum.RaycastFilterType.Include
+                Params.FilterDescendantsInstances = {workspace.Terrain}
+
+                local RaycastResult = workspace:Raycast(Bobber.Position, -Vector3.yAxis * 100, Params)
+                if RaycastResult and RaycastResult.Instance:IsA("Terrain") then
+                    Bobber:PivotTo(CFrame.new(RaycastResult.Position))
+                end
+            end
+        end)
