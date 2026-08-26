@@ -1,4 +1,4 @@
----this ui got nothing skidable lmao
+---niggerui 
 
 local Isotopia = {}
 local cloneref = cloneref or function(o) return o end
@@ -474,7 +474,7 @@ end)
 
     -- Slightly shorter, centered, and visually thinner.
     HorizontalDivider.AnchorPoint = Vector2.new(0.5, 0)
-    HorizontalDivider.Size = UDim2.new(0.88, 0, 0, 1)
+    HorizontalDivider.Size = UDim2.new(0.84, 0, 0, 1)
     HorizontalDivider.Position = UDim2.new(0.5, 0, 0.099, 0)
     HorizontalDivider.Parent = Handler
 
@@ -490,23 +490,17 @@ end)
     -- Fade smoothly at both ends while keeping the center crisp.
     HorizontalGradient.Transparency = NumberSequence.new{
         NumberSequenceKeypoint.new(0.00, 1.00),
-        NumberSequenceKeypoint.new(0.12, 0.72),
-        NumberSequenceKeypoint.new(0.28, 0.38),
-        NumberSequenceKeypoint.new(0.50, 0.24),
-        NumberSequenceKeypoint.new(0.72, 0.38),
-        NumberSequenceKeypoint.new(0.88, 0.72),
+        NumberSequenceKeypoint.new(0.08, 0.55),
+        NumberSequenceKeypoint.new(0.18, 0.34),
+        NumberSequenceKeypoint.new(0.50, 0.28),
+        NumberSequenceKeypoint.new(0.82, 0.34),
+        NumberSequenceKeypoint.new(0.92, 0.55),
         NumberSequenceKeypoint.new(1.00, 1.00),
     }
 
-    HorizontalGradient.Offset = Vector2.new(-1, 0)
+    -- Static divider: no moving gradient animation.
+    HorizontalGradient.Offset = Vector2.new(0, 0)
     HorizontalGradient.Parent = HorizontalDivider
-
-    local startOffsetHD = Window._animationSettings.AnimationSide == "Left" and Vector2.new(-1, 0) or Vector2.new(1, 0)
-    local targetOffsetHD = Window._animationSettings.AnimationSide == "Left" and Vector2.new(1, 0) or Vector2.new(-1, 0)
-    HorizontalGradient.Offset = startOffsetHD
-    TweenService:Create(HorizontalGradient, TweenInfo.new(Window._animationSettings.AnimationSpeed * 3, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, false), {
-        Offset = targetOffsetHD
-    }):Play()
     
     if settings.HideSearchBar == false then
     Divider.Visible = false
