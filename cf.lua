@@ -1,4 +1,4 @@
----niggerui 
+---this ui got nothing skidable lmao
 
 local Isotopia = {}
 local cloneref = cloneref or function(o) return o end
@@ -471,8 +471,11 @@ end)
     HorizontalDivider.BorderSizePixel = 0
     HorizontalDivider.BackgroundColor3 = Color3.fromRGB(245, 245, 247)
     HorizontalDivider.BackgroundTransparency = 1
-    HorizontalDivider.Size = UDim2.new(0, Window._size.X.Offset, 0, 1)
-    HorizontalDivider.Position = UDim2.new(0, 0, 0.099, 0)
+
+    -- Slightly shorter, centered, and visually thinner.
+    HorizontalDivider.AnchorPoint = Vector2.new(0.5, 0)
+    HorizontalDivider.Size = UDim2.new(0.88, 0, 0, 1)
+    HorizontalDivider.Position = UDim2.new(0.5, 0, 0.099, 0)
     HorizontalDivider.Parent = Handler
 
     local HorizontalGradient = Instance.new('UIGradient')
@@ -483,10 +486,18 @@ end)
         ColorSequenceKeypoint.new(0.75, Window._animationSettings.AnimationColor or Isotopia.Theme.accentAlt),
         ColorSequenceKeypoint.new(1,    Window._mainColor),
     }
-    HorizontalGradient.Transparency =      NumberSequence.new{
-        NumberSequenceKeypoint.new(0, 0.3),
-        NumberSequenceKeypoint.new(1, 0.3),
+
+    -- Fade smoothly at both ends while keeping the center crisp.
+    HorizontalGradient.Transparency = NumberSequence.new{
+        NumberSequenceKeypoint.new(0.00, 1.00),
+        NumberSequenceKeypoint.new(0.12, 0.72),
+        NumberSequenceKeypoint.new(0.28, 0.38),
+        NumberSequenceKeypoint.new(0.50, 0.24),
+        NumberSequenceKeypoint.new(0.72, 0.38),
+        NumberSequenceKeypoint.new(0.88, 0.72),
+        NumberSequenceKeypoint.new(1.00, 1.00),
     }
+
     HorizontalGradient.Offset = Vector2.new(-1, 0)
     HorizontalGradient.Parent = HorizontalDivider
 
