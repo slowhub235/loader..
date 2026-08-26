@@ -1,3 +1,5 @@
+---niggerui 
+
 local Isotopia = {}
 local cloneref = cloneref or function(o) return o end
 local UserInputService = cloneref(game:GetService('UserInputService'))
@@ -467,49 +469,37 @@ end)
     local HorizontalDivider = Instance.new('Frame')
     HorizontalDivider.Name = 'HorizontalDivider'
     HorizontalDivider.BorderSizePixel = 0
-    HorizontalDivider.BackgroundColor3 = Color3.fromRGB(68, 68, 74)
-    HorizontalDivider.BackgroundTransparency = 0.82.82
+    HorizontalDivider.BackgroundColor3 = Color3.fromRGB(245, 245, 247)
+    HorizontalDivider.BackgroundTransparency = 1
     HorizontalDivider.Size = UDim2.new(0, Window._size.X.Offset, 0, 1)
     HorizontalDivider.Position = UDim2.new(0, 0, 0.099, 0)
     HorizontalDivider.Parent = Handler
 
-    local TopBlend = Instance.new("Frame")
-    TopBlend.Name = "TopBlend"
-    TopBlend.BorderSizePixel = 0
-    TopBlend.BackgroundColor3 = Color3.fromRGB(32, 32, 36)
-    TopBlend.BackgroundTransparency = 0
-    TopBlend.Position = UDim2.new(0, 0, 0, 0)
-    TopBlend.Size = UDim2.new(1, 0, 0.099, 0)
-    TopBlend.ZIndex = 0
-    TopBlend.Parent = Handler
+    local HorizontalGradient = Instance.new('UIGradient')
+    HorizontalGradient.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0,    Window._mainColor),
+        ColorSequenceKeypoint.new(0.25, Window._animationSettings.AnimationColor or Isotopia.Theme.accentAlt),
+        ColorSequenceKeypoint.new(0.5,  Window._mainColor),
+        ColorSequenceKeypoint.new(0.75, Window._animationSettings.AnimationColor or Isotopia.Theme.accentAlt),
+        ColorSequenceKeypoint.new(1,    Window._mainColor),
+    }
+    HorizontalGradient.Transparency =      NumberSequence.new{
+        NumberSequenceKeypoint.new(0, 0.3),
+        NumberSequenceKeypoint.new(1, 0.3),
+    }
+    HorizontalGradient.Offset = Vector2.new(-1, 0)
+    HorizontalGradient.Parent = HorizontalDivider
 
-    local TopBlendGradient = Instance.new("UIGradient")
-    TopBlendGradient.Rotation = 90
-    TopBlendGradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromRGB(66, 66, 72)),
-        ColorSequenceKeypoint.new(0.32, Color3.fromRGB(61, 61, 67)),
-        ColorSequenceKeypoint.new(0.68, Color3.fromRGB(53, 53, 59)),
-        ColorSequenceKeypoint.new(1, Color3.fromRGB(32, 32, 36))
-    })
-    TopBlendGradient.Transparency = NumberSequence.new({
-        NumberSequenceKeypoint.new(0, 0.02),
-        NumberSequenceKeypoint.new(0.55, 0.08),
-        NumberSequenceKeypoint.new(1, 0)
-    })
-    TopBlendGradient.Parent = TopBlend
-    HorizontalDivider.ZIndex = 0
-
-    
     local startOffsetHD = Window._animationSettings.AnimationSide == "Left" and Vector2.new(-1, 0) or Vector2.new(1, 0)
     local targetOffsetHD = Window._animationSettings.AnimationSide == "Left" and Vector2.new(1, 0) or Vector2.new(-1, 0)
-    TopBlendGradient.Offset = startOffsetHD
-    TweenService:Create(TopBlendGradient, TweenInfo.new(Window._animationSettings.AnimationSpeed * 3, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, false), {
+    HorizontalGradient.Offset = startOffsetHD
+    TweenService:Create(HorizontalGradient, TweenInfo.new(Window._animationSettings.AnimationSpeed * 3, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1, false), {
         Offset = targetOffsetHD
     }):Play()
     
     if settings.HideSearchBar == false then
     Divider.Visible = false
-    HorizontalDivider.BackgroundTransparency = 0.82
+    HorizontalDivider.BackgroundTransparency = 0
 
     local SideDivider = Instance.new('Frame')
     SideDivider.Name = 'SideDivider'
